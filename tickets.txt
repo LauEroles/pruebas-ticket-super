@@ -1,8 +1,13 @@
 ----- Item 1 -----
-Descripción : shampoo
-Cantidad : 2
-Precio : 1000
+Descripción : aceite
+Cantidad : 3
+Precio : 500
+-----------------------------------------------------
+Importe producto : 1500
 ----- Item 2 -----
 Descripción : jabon
 Cantidad : 2
-Precio : 300
+Precio : 1200
+-----------------------------------------------------
+Importe producto : 2400
+Importe Total del ticket: 3900

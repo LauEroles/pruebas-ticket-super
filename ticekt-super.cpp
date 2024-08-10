@@ -1,13 +1,19 @@
 /*
-1)-Cargar e imprimir un ticket con items de productos de super mercado
-2)- Cargar un acumulador con el importe total del ticket
- 
- Diferencia entre precio e importe: importe esta detras de un calculo, por ej precio x cantidad
+    1)-Cargar e imprimir un ticket con items de productos de super mercado
+    
+    Diferencia entre precio e importe: importe esta detras de un calculo, por ej precio x cantidad
+
+ --------------------------------------------------------------------------
+
+    Second iteration- refactor:
+    a- Load an accumulator with the total amount of the ticket
+    b- Change the code to English
+
 */
 
 #include <iostream>
 #include <stdlib.h>
-//Esta libreria sirve para la funcion escribir, para persistir datos en txt
+//This libraryis used for the funcion that alows persist data on the txt
 #include <fstream>
 
 using namespace std;
@@ -22,12 +28,13 @@ struct Producto{
 };
 
 // es el prototipo de la funcion de escribir para los datos que irán en el txt
-bool escribir(string nombreArchivo, Producto productos[], int n);
+bool escribir(string nombreArchivo, Producto productos[], int n, float acumImporteTotal);
 
 
 int main () {
     
-    int cantProductos;
+    int cantProductos=0;
+    float importeProducto=0, acumuladorImporteTotal=0;
 
     cout<<"Ingrese la cantidad de productos que desea cargar"<<endl;
     cin>>cantProductos;
@@ -49,6 +56,13 @@ int main () {
         cout<<"Ingrese el precio del producto"<<endl;
         cin>>productos[i].precioProducto;
 
+        //estoy calculando el importe total de cada item
+        importeProducto=productos[i].cantidadProducto*productos[i].precioProducto;
+        
+        
+        //calculo el valor total del ticket
+        acumuladorImporteTotal+=importeProducto;
+
     }
     
     // Imprimo los datos del array del struct por consola
@@ -58,11 +72,16 @@ int main () {
         cout<<"Descripción : "<<productos[i].nombreProducto<<endl;
         cout<<"Cantidad : "<<productos[i].cantidadProducto<<endl;
         cout<<"Precio : "<<productos[i].precioProducto<<endl;
+        cout<<"-----------------------------------------------------"<<endl;
+        cout<<"Importe producto : "<<productos[i].precioProducto * productos[i].cantidadProducto<<endl;
 
+        
     }
 
+    cout<<"Importe Total del ticket: "<<acumuladorImporteTotal<<endl;
+
     // Escribo los datos del array del struct en el archivo txt
-    bool okEscritura=escribir("tickets.txt",productos,cantProductos);
+    bool okEscritura=escribir("tickets.txt",productos,cantProductos, acumuladorImporteTotal);
 
     //Si la escritua del archivo fallo, le aviso al user que no se pudo escribir el txts
     if (!okEscritura){
@@ -77,7 +96,7 @@ int main () {
 
                 //voy a recibir el nombre del archivo que voy a guardar en el main harcodeado
                 //recibo tambien el array del struct y el tamaño del mismo para guardar los valores en el txt 
- bool escribir(string nombreArchivo, Producto productos[], int n){
+ bool escribir(string nombreArchivo, Producto productos[], int n, float acumImporteTotal){
    
     //ofstream es como un tipo de dato, pero pertenece a la libreria y representa una salida de datos, declaro la variable archivo de tipo ofstream
     ofstream archivo;
@@ -99,7 +118,13 @@ int main () {
         archivo<<"Descripción : "<<productos[i].nombreProducto<<endl;
         archivo<<"Cantidad : "<<productos[i].cantidadProducto<<endl;
         archivo<<"Precio : "<<productos[i].precioProducto<<endl;
+        archivo<<"-----------------------------------------------------"<<endl;
+        archivo<<"Importe producto : "<<productos[i].precioProducto * productos[i].cantidadProducto<<endl;
+
     }
+
+        archivo<<"Importe Total del ticket: "<<acumImporteTotal<<endl;
+
 
     //siempre que se produce una apertura o se disponibiliza un dato hay que cerrar la operacion
     archivo.close();
